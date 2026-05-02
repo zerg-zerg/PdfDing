@@ -356,5 +356,6 @@ class ViewShared(BaseSharedPdfPublicView):
                 'theme': theme,
                 'theme_color': theme_color,
                 'user_view_bool': False,
+                'pdf': shared_pdf.pdf,
             },
         )

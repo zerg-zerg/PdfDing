@@ -519,6 +519,7 @@ class ViewerView(PdfMixin, View):
                 'theme_color': theme_color,
                 'user_view_bool': True,
                 'keep_screen_awake': request.user.profile.pdf_keep_screen_awake,
+                'pdf': pdf,
             },
         )
 

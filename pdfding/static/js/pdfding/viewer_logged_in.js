@@ -15,11 +15,12 @@ async function get_remote_signatures(signature_url) {
 }
 
 // function for updating the remote page
-function update_remote_page(pdf_id, update_url, csrf_token, webhook_url, webhook_apikey, webhook_userid, number_of_pages, creation_date, pdf_name) {
+function update_remote_page(pdf_id, update_url, csrf_token, webhook_url, webhook_apikey, webhook_userid, number_of_pages, creation_date, title) {
   if (PDFViewerApplication.pdfViewer.currentPageNumber != page_number) {
     page_number = PDFViewerApplication.pdfViewer.currentPageNumber;
+    var pdf_name = PDFViewerApplication._docFilename;
     set_current_page(page_number, pdf_id, update_url, csrf_token);
-    send_webhook_update(pdf_id, page_number, number_of_pages, creation_date, webhook_url, webhook_apikey, webhook_userid, pdf_name);
+    send_webhook_update(pdf_id, page_number, number_of_pages, creation_date, webhook_url, webhook_apikey, webhook_userid, pdf_name, title);
   }
 }
 
@@ -39,14 +40,14 @@ function set_current_page(current_page, pdf_id, update_url, csrf_token) {
 }
 
 // function for sending webhook update to external API
-function send_webhook_update(pdf_id, current_page, number_of_pages, creation_date, webhook_url, webhook_apikey, webhook_userid, pdf_name) {
+function send_webhook_update(pdf_id, current_page, number_of_pages, creation_date, webhook_url, webhook_apikey, webhook_userid, pdf_name, title) {
   if (!webhook_url || !webhook_apikey || !webhook_userid) {
     return;
   }
 
   var payload = {
     bookId: pdf_id,
-    title: pdf_name,
+    title,
     current_page: current_page,
     number_of_pages: number_of_pages,
     fileName: pdf_name,
@@ -54,11 +55,8 @@ function send_webhook_update(pdf_id, current_page, number_of_pages, creation_dat
     addTime: new Date(creation_date).getTime(),
     type: "pdfding",
     key: webhook_apikey,
+    userid: webhook_userid,
   };
-
-  if (webhook_userid) {
-    payload.userid = webhook_userid;
-  }
 
   fetch(webhook_url, {
     method: "POST",
