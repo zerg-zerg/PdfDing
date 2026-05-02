@@ -101,6 +101,9 @@ class Profile(models.Model):
     tags_open = models.BooleanField(default=False)
     tag_tree_mode = models.BooleanField(default=True)
     theme_color = models.CharField(choices=ThemeColor.choices, max_length=6, default=ThemeColor.RED)
+    webhook_url = models.URLField(blank=True, null=True, help_text=_('Webhook URL for PDF page updates'))
+    webhook_apikey = models.CharField(max_length=255, blank=True, null=True, help_text=_('Webhook API key for authentication'))
+    webhook_userid = models.CharField(max_length=255, blank=True, null=True, help_text=_('Webhook user ID for authentication'))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_sorting = models.CharField(choices=UserSortingChoice, max_length=15, default=UserSortingChoice.NEWEST)
 

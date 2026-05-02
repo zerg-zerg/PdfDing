@@ -15,10 +15,11 @@ async function get_remote_signatures(signature_url) {
 }
 
 // function for updating the remote page
-function update_remote_page(pdf_id, update_url, csrf_token) {
+function update_remote_page(pdf_id, update_url, csrf_token, webhook_url, webhook_apikey, webhook_userid, number_of_pages, creation_date, pdf_name) {
   if (PDFViewerApplication.pdfViewer.currentPageNumber != page_number) {
     page_number = PDFViewerApplication.pdfViewer.currentPageNumber;
     set_current_page(page_number, pdf_id, update_url, csrf_token);
+    send_webhook_update(pdf_id, page_number, number_of_pages, creation_date, webhook_url, webhook_apikey, webhook_userid, pdf_name);
   }
 }
 
@@ -34,6 +35,39 @@ function set_current_page(current_page, pdf_id, update_url, csrf_token) {
     headers: {
       'X-CSRFToken': csrf_token,
     },
+  });
+}
+
+// function for sending webhook update to external API
+function send_webhook_update(pdf_id, current_page, number_of_pages, creation_date, webhook_url, webhook_apikey, webhook_userid, pdf_name) {
+  if (!webhook_url || !webhook_apikey || !webhook_userid) {
+    return;
+  }
+
+  var payload = {
+    bookId: pdf_id,
+    title: pdf_name,
+    current_page: current_page,
+    number_of_pages: number_of_pages,
+    fileName: pdf_name,
+    last_viewed_date: new Date().getTime(),
+    addTime: new Date(creation_date).getTime(),
+    type: "pdfding",
+    key: webhook_apikey,
+  };
+
+  if (webhook_userid) {
+    payload.userid = webhook_userid;
+  }
+
+  fetch(webhook_url, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  }).catch(function(error) {
+    console.error('Error sending webhook update:', error);
   });
 }
 

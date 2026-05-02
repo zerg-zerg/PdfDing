@@ -130,7 +130,7 @@ See https://github.com/adobe-type-tools/cmap-resources
       get_remote_signatures("{% url 'signatures' %}");
 
       {# check every 3 seconds if remote page needs updating #}
-      setInterval(update_remote_page, 3000, '{{ pdf_id }}', '{% url 'update_page' %}', '{{ csrf_token }}');
+      setInterval(update_remote_page, 3000, '{{ pdf_id }}', '{% url 'update_page' %}', '{{ csrf_token }}', '{{ user.profile.webhook_url|default:"" }}', '{{ user.profile.webhook_apikey|default:"" }}', '{{ user.profile.webhook_userid|default:"" }}', '{{ pdf.number_of_pages|default:-1 }}', '{{ pdf.creation_date|default:"" }}', '{{ pdf.name|default:"" }}');
 
       {# check every 5 seconds if remote signatures need updating #}
       setInterval(update_remote_signatures, 5000, '{% url 'signatures' %}', '{{ csrf_token }}');

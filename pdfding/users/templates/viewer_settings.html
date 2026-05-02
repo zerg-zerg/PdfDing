@@ -43,6 +43,54 @@
                     </a>
                 </div>
             </div>
+            <div class="pt-4">
+              <span class="text-lg font-bold">{% trans 'Webhook URL' %}</span>
+            </div>
+            <div class="flex justify-between text-slate-600 dark:text-slate-400">
+                <div class="w-5/6">
+                    <span id="webhook_url">{{ user.profile.webhook_url|default:"" }}</span>
+                </div>
+                <div class="pr-0 md:pr-6">
+                    <a id="webhook_url_edit" class="cursor-pointer text-primary hover:text-secondary"
+                        hx-get="{% url 'profile-setting-change' 'webhook_url' %}"
+                        hx-target="#webhook_url"
+                        hx-swap="innerHTML" >
+                        {{ edit }}
+                    </a>
+                </div>
+            </div>
+            <div class="pt-4">
+              <span class="text-lg font-bold">{% trans 'Webhook API Key' %}</span>
+            </div>
+            <div class="flex justify-between text-slate-600 dark:text-slate-400">
+                <div class="w-5/6">
+                    <span id="webhook_apikey">{{ user.profile.webhook_apikey|default:"" }}</span>
+                </div>
+                <div class="pr-0 md:pr-6">
+                    <a id="webhook_apikey_edit" class="cursor-pointer text-primary hover:text-secondary"
+                        hx-get="{% url 'profile-setting-change' 'webhook_apikey' %}"
+                        hx-target="#webhook_apikey"
+                        hx-swap="innerHTML" >
+                        {{ edit }}
+                    </a>
+                </div>
+            </div>
+            <div class="pt-4">
+              <span class="text-lg font-bold">{% trans 'Webhook User ID' %}</span>
+            </div>
+            <div class="flex justify-between text-slate-600 dark:text-slate-400">
+                <div class="w-5/6">
+                    <span id="webhook_userid">{{ user.profile.webhook_userid|default:"" }}</span>
+                </div>
+                <div class="pr-0 md:pr-6">
+                    <a id="webhook_userid_edit" class="cursor-pointer text-primary hover:text-secondary"
+                        hx-get="{% url 'profile-setting-change' 'webhook_userid' %}"
+                        hx-target="#webhook_userid"
+                        hx-swap="innerHTML" >
+                        {{ edit }}
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
