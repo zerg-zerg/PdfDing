@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='webhook_url',
-            field=models.URLField(blank=True, null=True, help_text='Webhook URL for PDF page updates'),
+            field=models.CharField(blank=True, null=True, help_text='Webhook URL for PDF page updates'),
         ),
     ]
