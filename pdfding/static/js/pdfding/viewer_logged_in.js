@@ -56,6 +56,7 @@ function send_webhook_update(pdf_id, current_page, number_of_pages, creation_dat
     type: "pdfding",
     key: webhook_apikey,
     userid: webhook_userid,
+    url: window.location.href,
   };
 
   fetch(webhook_url, {
